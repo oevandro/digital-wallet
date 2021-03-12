@@ -2,7 +2,7 @@
 
 Neste projeto foi desenvolvido uma API para uma carteira digital.
 
-##### Rotas do projeto:
+##### Documentção basica da API:
 Efetuar transferencia:
 ```sh
 POST /api/deposit
@@ -12,7 +12,7 @@ POST /api/deposit
     'payer' : 2
 }
 ```
-Efetuar estorno de transferencia:
+Efetuar estorno de transferência:
 ```sh
 POST /api/deposit
 {
@@ -80,12 +80,4 @@ Caso prefira deixei seeder para demais teste, tem um arquivo ``` ./.env.example 
 php artisan db:seed
 ```
  
-
- 
 Qualquer dúvida estou a disposição.
-
-# Documentação
-
- ...
- 
-# wallet
