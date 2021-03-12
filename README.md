@@ -5,7 +5,7 @@ Neste projeto foi desenvolvido uma API para uma carteira digital.
 ##### Documentção basica da API:
 Efetuar transferencia:
 ```sh
-POST /api/deposit
+POST /api/transfer
 {
     'amount' : 0.00,
     'payee' : 1,
@@ -14,7 +14,7 @@ POST /api/deposit
 ```
 Efetuar estorno de transferência:
 ```sh
-POST /api/deposit
+POST /api/chargeback
 {
     'transfer_id' : 1
 }
