@@ -23,6 +23,9 @@ class TransactionsController extends Controller
      */
     public function deposit(Request $request)
     {
+        if(!$this->user)
+            return response()->json(['message' => 'Not Authorized'], 401);
+
         $validatedData = $this->validateFields($request->all());
         $deposit = $this->repository->deposit($validatedData, $this->user->id);
 
@@ -41,6 +44,9 @@ class TransactionsController extends Controller
      */
     public function withdraw(Request $request)
     {
+        if(!$this->user)
+            return response()->json(['message' => 'Not Authorized'], 401);
+
         $validatedData = $this->validateFields($request->all());
         $withdraw = $this->repository->withdraw($validatedData, $this->user->id);
 
@@ -59,12 +65,15 @@ class TransactionsController extends Controller
      */
     public function transfer(Request $request)
     {
-        if ($this->validateUserToTransfer() == false) {
+        if(!$this->user)
+            return response()->json(['message' => 'Not Authorized'], 401);
+
+        if ($this->validateUserToTransfer($request->payer) == false) {
             return response()->make('Not allowed to transfer', 400);
         }
 
         $validatedData = $this->validateFields($request->all());
-        $transfer = $this->repository->transfer($validatedData, $this->user->id, $request->payee);
+        $transfer = $this->repository->transfer($validatedData, $request->payer, $request->payee);
         return $transfer;
 
         if ($transfer) {
@@ -82,6 +91,9 @@ class TransactionsController extends Controller
      */
     public function chargeback(Request $request)
     {
+        if(!$this->user)
+            return response()->json(['message' => 'Not Authorized'], 401);
+
         $transfer = $this->repository->chargeback($request['transfer_id']);
 
         if ($transfer) {
@@ -115,9 +127,9 @@ class TransactionsController extends Controller
      *
      * @return void
      */
-    private function validateUserToTransfer()
+    private function validateUserToTransfer($payer)
     {
-        $user = User::find($this->user->id);
+        $user = User::find($payer);
         if ($user['type'] == User::TYPE_SHOPP) {
             return false;
         }
